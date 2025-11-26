@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traitement du paiement...</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: "Inter", sans-serif;
+            background: #f5f7fb;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        .box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 7px 25px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .loader {
+            margin: 20px auto;
+            border: 5px solid #ddd;
+            border-top: 5px solid #1a73e8;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h1 id="title">Traitement du paiement...</h1>
+    <p id="desc">Veuillez patienter un instant.</p>
+    <div class="loader"></div>
+</div>
+
+<script>
+/* -----------------------------
+   TRADUCTIONS
+------------------------------*/
+const translations = {
+    fr: {
+        title: "Paiement confirmé 🎉",
+        desc: "Vous allez être redirigé automatiquement."
+    },
+    en: {
+        title: "Payment confirmed 🎉",
+        desc: "You will be redirected automatically."
+    },
+    es: {
+        title: "Pago confirmado 🎉",
+        desc: "Será redirigido automáticamente."
+    },
+    pt: {
+        title: "Pagamento confirmado 🎉",
+        desc: "Você será redirecionado automaticamente."
+    },
+    zh: {
+        title: "付款已确认 🎉",
+        desc: "您将被自动重定向。"
+    }
+};
+
+/* -----------------------------
+   DÉTECTER LANGUE
+------------------------------*/
+function getLang() {
+    const stored = localStorage.getItem("lang");
+    if (stored && translations[stored]) return stored;
+    return "fr";
+}
+
+/* -----------------------------
+   APPLIQUER TRADUCTIONS
+------------------------------*/
+(function applyTranslations() {
+    const lang = getLang();
+    const t = translations[lang];
+
+    // Vérifie si les éléments existent avant de les modifier
+    const titleEl = document.getElementById("title");
+    const descEl  = document.getElementById("desc");
+
+    if (titleEl) titleEl.textContent = t.title;
+    if (descEl)  descEl.textContent  = t.desc;
+})();
+
+/* -----------------------------
+   REDIRECTION
+------------------------------*/
+(function redirectToForm() {
+    const VALID_TOKEN = "SFAX-92JKD82-UNIQUE";
+
+    setTimeout(() => {
+        window.location.href = `formulaire.html?access=${VALID_TOKEN}`;
+    }, 1500);
+})();
+</script>
+
+</body>
+</html>
